@@ -4,6 +4,11 @@ import numpy as np
 import imutils
 import cv2
 from steer import * 
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+
 def find_marker(image):
 	# convert the image to grayscale, blur it, and detect edges
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -31,6 +36,10 @@ focalLength = 84.6  # focal length of Oppo A83 Camera
 print(focalLength)
 # loop over the images
 for imagePath in sorted(paths.list_images("test_images")):
+	camera.start_preview()
+	sleep(5)
+	camera.capture('/home/pi/Desktop/image.jpg')
+	camera.stop_preview()
 	# load the image, find the marker in the image, then compute the
 	# distance to the marker from the camera
 	image = cv2.imread(imagePath)
